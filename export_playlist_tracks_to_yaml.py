@@ -7,26 +7,6 @@ output/2025-01-01 13.00.00 - Liked Music.yaml
     
 """
 
-yaml_track_template = {
-    "pl_title": "",
-    "pl_description": "",
-    "pl_author": "",
-    "pl_year": "",
-    "pl_duration_str": "",
-    "pl_duration_seconds": 0,
-    "pl_tracks": [
-        {
-            "title": "",
-            "artists": [
-                {"artist_name": "", "artist_id": ""}
-            ],
-            "video_id": "",
-            "album": {"album_title": "", "album_id": ""}
-        }
-    ]
-
-}
-
 import datetime
 from pathlib import Path
 from yaml import dump
