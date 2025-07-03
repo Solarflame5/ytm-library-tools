@@ -29,6 +29,7 @@ yaml_track_template = {
 
 import datetime
 from pathlib import Path
+from yaml import dump
 
 from ytmusicapi import YTMusic
 ytmusic = YTMusic("browser.json")
@@ -39,4 +40,35 @@ output_path.mkdir(parents=True, exist_ok=True)
 
 playlist_id = "LM"
 
-playlist = ytmusic.get_playlist()
+playlist = ytmusic.get_playlist(playlist_id, None)
+
+output_dict = {
+    "pl_title": playlist["title"],
+    "pl_description": playlist["description"],
+    "pl_author": "",
+    "pl_year": playlist["year"],
+    "pl_duration_seconds": playlist["duration_seconds"],
+    "pl_tracks": []
+}
+try:
+    output_dict["pl_author"] = playlist["author"]
+except:
+    output_dict["pl_author"] = "-Unknown-"
+
+for track in playlist["tracks"]:
+    tracks_dict = {
+        "title": track["title"],
+        "artists": [],
+        "video_id": track["videoId"],
+        "album": {}
+    }
+    try:
+        tracks_dict["album"] = {"album_name": track["album"]["name"], "album_id": track["album"]["id"]}
+    except:
+        tracks_dict["album"] = {"album_name": "-Unknown-", "album_id": "-Unknown-"}
+
+    for artist in track["artists"]:
+        tracks_dict["artists"].append(
+            {"artist_name": artist["name"], "artist_id": artist["id"]}
+        )
+    output_dict["pl_tracks"].append(tracks_dict)
