@@ -7,7 +7,6 @@ Example:
         PL4YL15T1D  Cool Music  You
         PL4YL15T1D  Uncool Music  You
         PL4YL15T1D  community playlist  cooldude51
-
 """
 
 import datetime
