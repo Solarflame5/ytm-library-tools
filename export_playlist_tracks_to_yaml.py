@@ -72,3 +72,6 @@ for track in playlist["tracks"]:
             {"artist_name": artist["name"], "artist_id": artist["id"]}
         )
     output_dict["pl_tracks"].append(tracks_dict)
+
+with open(f"{output_path}/{timestamp} - {output_dict["pl_title"]}.yaml", "w", encoding="utf-8") as f:
+    f.write(dump(output_dict, sort_keys=False))
