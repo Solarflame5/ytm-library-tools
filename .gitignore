@@ -1,2 +1,4 @@
 .venv
-.temp
+browser.json
+scratchpad.ipynb
+output
