@@ -1,9 +1,9 @@
 """
-This script exports a list of tracks from a given playlist to a timestamped TSV file under ./output/
+This script exports a list of tracks from a given playlist to a timestamped YAML file under ./output/
 
-$ py export_playlist_tracks_to_tsv.py [PLAYLIST ID]
+$ py export_playlist_tracks_to_yaml.py NOT YET IMPLEMENTED
 
-output/2025-01-01 13.00.00 - Liked Music.yml
+output/2025-01-01 13.00.00 - Liked Music.yaml
     
 """
 
@@ -74,4 +74,4 @@ for track in playlist["tracks"]:
     output_dict["pl_tracks"].append(tracks_dict)
 
 with open(f"{output_path}/{timestamp} - {output_dict["pl_title"]}.yaml", "w", encoding="utf-8") as f:
-    f.write(dump(output_dict, sort_keys=False))
+    f.write(dump(output_dict, sort_keys=False, allow_unicode=True))
