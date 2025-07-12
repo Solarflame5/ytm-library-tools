@@ -1,7 +1,9 @@
 """
 This script exports a list of tracks from a given playlist to a timestamped YAML file under ./output/
 
-$ py export_playlist_tracks_to_yaml.py [playlist id]
+$ py export_playlist_tracks_to_yaml.py --playlist [playlist id]
+OR
+$ py export_playlist_tracks_to_yaml.py --bulk [TSV or text file with playlist IDs seperated by newline]
 
 output/2025-01-01 13.00.00 - [Playlist Name].yaml
     
