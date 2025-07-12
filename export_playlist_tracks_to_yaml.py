@@ -8,6 +8,7 @@ output/2025-01-01 13.00.00 - [Playlist Name].yaml
 """
 
 from yaml import dump
+import time 
 
 import argparse
 argparser = argparse.ArgumentParser()
@@ -61,8 +62,48 @@ def get_playlist_dictionary(playlist_id: str) -> dict:
 
     return output_dict
 
-def export_dictionary_to_yaml(playlist_dictionary: dict):
-    with open(f"{output_path}/{timestamp} - {playlist_dictionary["pl_title"]}.yaml", "w", encoding="utf-8") as f:
+def export_dictionary_to_yaml(export_path: Path, playlist_dictionary: dict):
+    with open(f"{export_path}/{timestamp} - {escape_filename(playlist_dictionary["pl_title"])}.yaml", "w", encoding="utf-8") as f:
         f.write(dump(playlist_dictionary, sort_keys=False, allow_unicode=True))
 
-export_dictionary_to_yaml(get_playlist_dictionary(args.playlist))
+def escape_filename(input_str: str) -> str:
+    output_str = input_str
+    output_str = output_str.replace("/", "(slash)")
+    output_str = output_str.replace("\\", "(bslash)")
+    output_str = output_str.replace(":", "(colon)")
+    output_str = output_str.replace("*", "(asterisk)")
+    output_str = output_str.replace("?", "(qmark)")
+    output_str = output_str.replace("\"", "(quote)")
+    output_str = output_str.replace("<", "(lessthan)")
+    output_str = output_str.replace(">", "(greaterthan)")
+    output_str = output_str.replace("|", "(pipe)")
+    return output_str
+
+if not args.playlist == None and not args.bulk == None:
+    print("You can only use one argument at once")
+elif args.playlist == None and args.bulk == None:
+    print("""Usage:
+-p [Playlist ID] # Export a single playlist
+-b [TSV or text file with playlist IDs seperated by newline] # Bulk export multiple playlists""")
+elif not args.playlist == None:
+    print("Starting export...")
+    playlist_dictionary = get_playlist_dictionary(args.playlist)
+    export_dictionary_to_yaml(output_path, playlist_dictionary)
+    print(f"Playlist {playlist_dictionary["pl_title"]} has successfully been exported.")
+
+elif not args.bulk == None:
+    bulk_output_path = output_path / f"{timestamp} - Bulk Export"
+    bulk_output_path.mkdir(parents=True, exist_ok=True)
+    
+    bulk_playlists_list = []
+    with open(args.bulk, "r", encoding="utf-8") as f:
+        for line in f.read().splitlines():
+            bulk_playlists_list.append(line.split("\t")[0])
+    
+    print("Starting bulk export...")
+    for playlist_id in bulk_playlists_list:
+        playlist_dictionary = get_playlist_dictionary(playlist_id)
+        export_dictionary_to_yaml(bulk_output_path, playlist_dictionary)
+        print(f"Playlist \"{(playlist_dictionary["pl_title"])}\" has successfully been exported.")
+        time.sleep(1)
+    print("Bulk export successful!")
