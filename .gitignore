@@ -1,4 +1,5 @@
 .venv
+.vscode
 browser.json
 scratchpad.ipynb
 output
