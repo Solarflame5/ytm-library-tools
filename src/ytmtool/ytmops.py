@@ -5,6 +5,8 @@ from ytmusicapi import OAuthCredentials, YTMusic
 
 import ytmtool.models as models
 
+__all__ = ["ytmusic", "get_playlist_stubs", "get_playlist"]
+
 load_dotenv()
 if (env_auth_type := getenv("AUTH_TYPE")) is not None:
     if env_auth_type == "browser":
