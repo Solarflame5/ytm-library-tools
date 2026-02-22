@@ -1,3 +1,7 @@
 .venv
 .vscode
 browser.json
+oauth.json
+.env
+__pycache__
+temp*
