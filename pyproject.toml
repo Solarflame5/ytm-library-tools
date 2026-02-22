@@ -2,6 +2,7 @@
 name = "ytmtool"
 version = "0.1.0"
 dependencies = [
+    "python-dotenv>=1.2.1",
     "ytmusicapi>=1.11.4",
 ]
 
