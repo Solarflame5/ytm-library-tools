@@ -7,7 +7,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ytmtool = "ytmtool:main"
+ytmtool = "ytmtool.main:main"
 
 [build-system]
 requires = ["hatchling"]
