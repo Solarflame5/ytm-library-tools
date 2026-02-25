@@ -76,6 +76,5 @@ def get_playlist(playlist_id: str) -> models.Playlist:
     )
     return playlist
 
-if __name__ == "__main__": # code for testing
-    likedmusic = get_playlist("LM")
-    pass
+# if __name__ == "__main__": # code for testing
+#     pass

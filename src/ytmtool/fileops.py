@@ -66,7 +66,5 @@ def read_playlist_from_file(filepath: Path) -> models.Playlist:
     )
     return playlist
 
-if __name__ == "__main__": # code for testing
-    myplaylist = read_playlist_from_file(Path("temp.json"))
-    save_playlist_to_file(myplaylist, Path("temp2.json"))
-    pass
+# if __name__ == "__main__": # code for testing
+#     pass
