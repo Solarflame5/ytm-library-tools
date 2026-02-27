@@ -18,6 +18,15 @@ def handle_stats(args):
     stat_type = args.type
     filepath = args.filepath
 
+    def count_and_truncate(raw_list: list) -> list[tuple[str, int]]:
+        raw_counts = Counter(raw_list).most_common()
+        truncated_counts: list[tuple[str, int]] = [] # TODO: convert into list comprehension
+        for count in raw_counts:
+            if count[1] == 1:
+                continue
+            truncated_counts.append(count)
+        return truncated_counts
+
     playlist = fileops.read_playlist_from_file(filepath)
     if stat_type == "album":
         albums = []
@@ -25,15 +34,13 @@ def handle_stats(args):
             if track.album is None:
                 continue
             albums.append(f"{track.artists[0].name} - {track.album.title}")
-        raw_counts = Counter(albums).most_common()
-        truncated_counts = [] # TODO: convert into list comprehension
-        for count in raw_counts:
-            if count[1] == 1:
-                continue
-            truncated_counts.append(count)
-        print(tabulate(truncated_counts, headers=["Album Title", "Count"]))
+        print(tabulate(count_and_truncate(albums), headers=["Album Title", "Count"]))
     elif stat_type == "artist":
-        pass
+        artists = []
+        for track in playlist.tracks:
+            for artist in track.artists:
+                artists.append(artist.name)
+        print(tabulate(count_and_truncate(artists), headers=["Artist Name", "Count"]))
 
 def main():
     parser = argparse.ArgumentParser(
@@ -51,6 +58,7 @@ def main():
     stats_parser.add_argument("type", choices=["album", "artist"], help="Type to count in playlist tracks")
     stats_parser.add_argument("filepath", type=Path, help="Path to playlist JSON file")
     stats_parser.set_defaults(func=handle_stats)
+    # TODO: implement skipping truncation
 
     args = parser.parse_args()
     args.func(args)
