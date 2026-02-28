@@ -12,7 +12,15 @@ def handle_list(args):
     print(tabulate(ytmops.get_playlist_stubs(), headers=["Title", "ID", "Description", "Author"])) # type: ignore[reportArgumentType] # tabulate does support lists of dataclasses
 
 def handle_export(args):
-    return
+    playlist_id = args.id
+    filepath = args.filepath
+
+    playlist = ytmops.get_playlist(playlist_id)
+    playlist_title = fileops.normalize_filename(playlist.title)
+    if filepath is None:
+        filepath = Path(f"{playlist_title} - {fileops.get_iso_timestamp()}.json")
+
+    fileops.save_playlist_to_file(playlist, filepath)
 
 def handle_stats(args):
     stat_type = args.type
@@ -52,6 +60,8 @@ def main():
     list_parser.set_defaults(func=handle_list)
 
     export_parser = subparsers.add_parser("export", help="Export playlist(s) to JSON file(s)")
+    export_parser.add_argument("id", help="Playlist ID to export")
+    export_parser.add_argument("filepath", type=Path, help="File path to save playlist to", nargs="?", default=None)
     export_parser.set_defaults(func=handle_export)
 
     stats_parser = subparsers.add_parser("stats", help="Show statistics from exported playlist")
