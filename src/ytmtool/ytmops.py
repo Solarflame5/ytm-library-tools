@@ -3,9 +3,13 @@ from os import getenv
 from dotenv import load_dotenv
 from ytmusicapi import OAuthCredentials, YTMusic
 
-import ytmtool.models as models
+from ytmtool import models
 
-__all__ = ["ytmusic", "get_playlist_stubs", "get_playlist"]
+__all__ = [
+    "get_playlist",
+    "get_playlist_stubs",
+    "ytmusic",
+]
 
 load_dotenv()
 if (env_auth_type := getenv("AUTH_TYPE")) is not None:

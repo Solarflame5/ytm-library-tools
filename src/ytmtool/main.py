@@ -4,8 +4,7 @@ from pathlib import Path
 
 from tabulate import tabulate
 
-import ytmtool.fileops as fileops
-import ytmtool.ytmops as ytmops
+from ytmtool import fileops, ytmops
 
 
 def handle_list(args):

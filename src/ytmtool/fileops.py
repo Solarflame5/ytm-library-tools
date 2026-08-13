@@ -5,13 +5,19 @@ import unicodedata
 from dataclasses import asdict
 from pathlib import Path
 
-import ytmtool.models as models
+from ytmtool import models
 
-__all__ = ["get_iso_timestamp", "normalize_filename", "save_playlist_to_file", "read_playlist_from_file"]
+__all__ = [
+    "get_iso_timestamp",
+    "normalize_filename",
+    "read_playlist_from_file",
+    "save_playlist_to_file",
+]
+
 
 def get_iso_timestamp() -> str:
     return (
-        datetime.datetime.now()
+        datetime.datetime.now()  # noqa: DTZ005
         .replace(microsecond=0)
         .isoformat(" ")
         .replace(":", ".")
